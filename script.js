@@ -73,32 +73,43 @@ function updateChladni(frequency) {
     });
 }
 
-// Dessin du motif de Chladni (simplifié pour l'exemple)
+// Dessin du motif de Chladni (version réaliste)
 function drawChladniPattern(sketch, img, frequency) {
     img.loadPixels();
     const d = sketch.pixelDensity();
     const halfW = img.width / 2;
     const halfH = img.height / 2;
-    const scale = 0.01 * frequency;
+    // Paramètres pour un rendu réaliste
+    const modes = [1, 2, 3, 4, 5]; // Modes de vibration
+    const mode = modes[Math.floor(sketch.map(frequency, 300, 600, 0, modes.length))];
+    const scale = 0.005 * frequency;
+    const contrast = 2.5;
 
     for (let y = 0; y < img.height; y++) {
         for (let x = 0; x < img.width; x++) {
             const dx = (x - halfW) * scale;
             const dy = (y - halfH) * scale;
-            const dSquared = dx * dx + dy * dy;
-            const angle = sketch.atan2(dy, dx);
-            const r = sketch.sqrt(dSquared);
-            const val = sketch.sin(r * 10) * sketch.sin(angle * 8);
+            const r = sketch.sqrt(dx*dx + dy*dy);
+            const theta = sketch.atan2(dy, dx);
+            // Fonction de Bessel simplifiée pour les motifs
+            let val = 0;
+            for (let n = 0; n < mode; n++) {
+                val += sketch.cos((n+1) * theta) * sketch.sin(r * (n+1) * 2);
+            }
+            val = sketch.constrain(val * contrast, -1, 1);
             const col = sketch.floor(sketch.map(val, -1, 1, 0, 255));
             const index = 4 * d * (y * img.width * d + x);
-            img.pixels[index] = col;
-            img.pixels[index + 1] = col;
-            img.pixels[index + 2] = col;
-            img.pixels[index + 3] = 255;
+            // Couleur dorée/verte pour coller à la charte graphique
+            img.pixels[index]     = 74 + col/3;     // R
+            img.pixels[index + 1] = 107 + col/2;   // G
+            img.pixels[index + 2] = 58 + col/4;    // B
+            img.pixels[index + 3] = 255;            // Alpha
         }
     }
     img.updatePixels();
 }
+
+    
 
 // Événements
 document.getElementById('play-all').addEventListener('click', playAll);
