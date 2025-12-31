@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Soin Énergétique par Fréquences</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="lib/p5.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Soin Énergétique par Fréquences</h1>
+        <p>Écoutez les fréquences de guérison et visualisez les motifs de Chladni</p>
+    </header>
+
+    <main>
+        <div class="player-container">
+            <div class="chladni-container">
+                <div id="chladni-canvas"></div>
+            </div>
+            <div class="controls">
+                <button id="play-all">Écouter toute la playlist en boucle</button>
+                <div class="frequency-list">
+                    <!-- Les fréquences seront ajoutées dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Inspiré par la charte graphique de <a href="https://www.bien-etre-geobiologie.fr/" target="_blank">Bien-Être Géobiologie</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
